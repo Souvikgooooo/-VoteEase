@@ -34,12 +34,12 @@ eksctl create cluster --name EKS_CLUSTER_NAME --region us-west-2 --nodegroup-nam
 ```
 3. Install AWS CLI & Kubectl
 
-# AWS CLI Installation
+## AWS CLI Installation
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
 
-# Kubectl Installation
+## Kubectl Installation
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.11/2023-03-17/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/
@@ -48,7 +48,8 @@ sudo mv ./kubectl /usr/local/bin/
 aws eks update-kubeconfig --name EKS_CLUSTER_NAME --region us-west-2
 kubectl get nodes
 ```
-MongoDB Setup
+## MongoDB Setup
+
 5. Create Namespace
 ```
 kubectl create ns cloudchamp
@@ -80,7 +81,8 @@ db.languages.insert({"name" : "python", "codedetail" : {"usecase" : "system, web
 db.languages.insert({"name" : "javascript", "codedetail" : {"usecase" : "web, client-side", "rank" : 7, "homepage" : "https://en.wikipedia.org/wiki/JavaScript", "votes" : 0}});
 EOF
 ```
-API Deployment
+## API Deployment
+
 9. Deploy API
 ```
 kubectl apply -f api-deployment.yaml
@@ -95,7 +97,8 @@ API_ELB_PUBLIC_FQDN=$(kubectl get svc api -ojsonpath="{.status.loadBalancer.ingr
 curl -s $API_ELB_PUBLIC_FQDN/languages | jq .
 ```
 
-Frontend Deployment
+## Frontend Deployment
+
 12. Deploy Frontend
 ```
 kubectl apply -f frontend-deployment.yaml
@@ -110,7 +113,8 @@ kubectl expose deploy frontend --name=frontend --type=LoadBalancer --port=80
 FRONTEND_ELB_PUBLIC_FQDN=$(kubectl get svc frontend -ojsonpath="{.status.loadBalancer.ingress[0].hostname}")
 echo "Frontend URL: http://$FRONTEND_ELB_PUBLIC_FQDN"
 ```
-Final Test
+## Final Test
+
 15. Check MongoDB Data
 ```
 kubectl exec -it mongo-0 -- mongo langdb --eval "db.languages.find().pretty()"
